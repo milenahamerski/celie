@@ -1,6 +1,8 @@
-## Problem Track
+## Celie
 
-"Problem Track" is the ultimate solution for organizations seeking to enhance their problem resolution processes, drive operational efficiency, and deliver exceptional customer experiences.
+Celie is a backend project designed to help women who have experienced domestic violence. The application allows users to register emergency contact numbers. When the first emergency contact is triggered, the others will be notified via WhatsApp. Additionally, the application enables victims to share their location with emergency contacts.
+
+This backend project is structured using the template from tsi34d-framework-template.
 
 ### Dependências
 
