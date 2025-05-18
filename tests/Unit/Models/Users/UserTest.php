@@ -19,7 +19,7 @@ class UserTest extends TestCase
             'email' => 'fulano@example.com',
             'password' => '123456',
             'password_confirmation' => '123456',
-            'is_admin' => 0
+            'role' => 'member'
         ]);
         $this->user->save();
 
@@ -28,7 +28,7 @@ class UserTest extends TestCase
             'email' => 'fulano1@example.com',
             'password' => '123456',
             'password_confirmation' => '123456',
-            'is_admin' => 0
+            'role' => 'admin'
         ]);
         $this->user2->save();
     }
@@ -75,9 +75,24 @@ class UserTest extends TestCase
         $this->assertEquals('outro@example.com', $this->user->email);
     }
 
-    public function test_errors_should_return_errors(): void
+    public function test_errors_should_return_role_exception(): void
+    {
+        $user = new User([
+            'role' => 'invalid_role'
+        ]);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Role inválida, deve ser 'admin' ou 'member'.");
+
+        $user->isValid();
+    }
+
+    public function test_errors_should_return_name_and_email_errors(): void
     {
         $user = new User();
+
+
+        $user->role = 'member';
 
         $this->assertFalse($user->isValid());
         $this->assertFalse($user->save());
@@ -94,7 +109,7 @@ class UserTest extends TestCase
             'email' => 'fulano3@example.com',
             'password' => '123456',
             'password_confirmation' => '1234567',
-            'is_admin' => 0
+            'role' => 'member'
         ]);
 
         $this->assertFalse($user->isValid());

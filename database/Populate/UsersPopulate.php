@@ -9,11 +9,11 @@ class UsersPopulate
     public static function populate()
     {
         // MEMBERS
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $user = new User([
                 'name' => 'User ' . $i,
                 'email' => 'user' . $i . '@example.com',
-                'is_admin' => 0
+                'role' => 'member'
             ]);
             $user->password = '123456';
             $user->password_confirmation = '123456';
@@ -26,7 +26,7 @@ class UsersPopulate
             $user = new User([
                 'name' => 'Admin ' . $i,
                 'email' => 'admin' . $i . '@example.com',
-                'is_admin' => 1
+                'role' => 'admin'
             ]);
             $user->password = '123456';
             $user->password_confirmation = '123456';
