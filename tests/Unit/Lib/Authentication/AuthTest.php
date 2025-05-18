@@ -14,41 +14,46 @@ class AuthTest extends TestCase
     {
         parent::setUp();
         $_SESSION = [];
+
         $this->user = new User([
-            'name' => 'User 1',
-            'email' => 'fulano@example.com',
+            'cpf' => '12345678901',
             'password' => '123456',
-            'password_confirmation' => '123456'
+            'password_confirmation' => '123456',
+            'full_name' => 'User Test',
+            'email' => 'user@test.com',
+            'status' => true,
+            'created' => date('Y-m-d H:i:s'),
         ]);
+
         $this->user->save();
+
+        if (!$this->user->id) {
+            $this->fail('User ID not set after save, check your save method.');
+        }
     }
 
     public function tearDown(): void
     {
-        parent::setUp();
+        parent::tearDown();
         $_SESSION = [];
     }
 
     public function test_login(): void
     {
         Auth::login($this->user);
-
-        $this->assertEquals(1, $_SESSION['user']['id']);
+        $this->assertEquals($this->user->id, $_SESSION['user']['id']);
     }
 
     public function test_user(): void
     {
         Auth::login($this->user);
-
         $userFromSession = Auth::user();
-
         $this->assertEquals($this->user->id, $userFromSession->id);
     }
 
     public function test_check(): void
     {
         Auth::login($this->user);
-
         $this->assertTrue(Auth::check());
     }
 
@@ -56,7 +61,6 @@ class AuthTest extends TestCase
     {
         Auth::login($this->user);
         Auth::logout();
-
         $this->assertFalse(Auth::check());
     }
 }

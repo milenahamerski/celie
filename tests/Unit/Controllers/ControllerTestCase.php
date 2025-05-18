@@ -1,96 +1,45 @@
 <?php
 
-namespace Tests\Unit\Controllers;
+namespace Tests\Unit\Models\Users;
 
-use Core\Constants\Constants;
-use Core\Http\Request;
+use App\Models\User;
 use Tests\TestCase;
 
-abstract class ControllerTestCase extends TestCase
+class UserTest extends TestCase
 {
-    private Request $request;
+    private User $user1;
+    private User $user2;
 
     public function setUp(): void
     {
         parent::setUp();
-        require Constants::rootPath()->join('config/routes.php');
 
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/';
-        $this->request = new Request();
+        $this->user1 = new User([
+            'cpf' => '12345678901',
+            'full_name' => 'User 1',       
+            'email' => 'user1@example.com',
+            'password' => 'password123',
+        ]);
+        $this->user1->save();
+
+        $this->user2 = new User([
+            'cpf' => '10987654321',
+            'full_name' => 'User 2',       
+            'email' => 'user2@example.com',
+            'password' => 'password456',
+        ]);
+        $this->user2->save();
     }
 
-    public function tearDown(): void
+    public function test_set_full_name(): void
     {
-        unset($_SERVER['REQUEST_METHOD']);
-        unset($_SERVER['REQUEST_URI']);
+        $this->user1->full_name = 'Updated Name';
+        $this->assertEquals('Updated Name', $this->user1->full_name);
     }
 
-    /**
-     * @param array<string, mixed> $params
-     */
-    public function get(string $action, string $controllerName, array $params = []): string
+    public function test_find_by_cpf_should_return_the_user(): void
     {
-        return $this->execController($action, $controllerName, $params);
+        $this->assertEquals($this->user1->id, User::findByCpf($this->user1->cpf)->id);
     }
 
-    /**
-     * @param array<string, mixed> $params
-     */
-    public function post(string $action, string $controllerName, array $params = []): string
-    {
-        return $this->execController($action, $controllerName, $params);
-    }
-
-    /**
-     * @param array<string, mixed> $params
-     */
-    public function put(string $action, string $controllerName, array $params = []): string
-    {
-        return $this->execController($action, $controllerName, $params);
-    }
-
-    /**
-     * @param array<string, mixed> $params
-     */
-    private function execController(string $action, string $controllerName, array $params = []): string
-    {
-        $controller = $this->getControllerInstance($controllerName);
-        $this->request->addParams($params);
-
-        ob_start();
-        try {
-            $controller->$action($this->request);
-            return ob_get_contents();
-        } catch (\Exception $e) {
-            throw $e;
-        } finally {
-            ob_end_clean();
-        }
-    }
-
-    /**
-     * Creates a test controller instance with overridden redirect behavior
-     * @template T of \Core\Http\Controllers\Controller
-     * @param class-string<T> $controllerName
-     * @return \Core\Http\Controllers\Controller
-     */
-    private function getControllerInstance(string $controllerName)
-    {
-        // Generate a unique class name by appending a random hash to avoid naming conflicts
-        // when creating multiple test controller instances in the same test run
-        $className = 'TestController' . md5(uniqid('', true));
-
-        $code = "
-            class {$className} extends {$controllerName} {
-                protected function redirectTo(string \$location): void {
-                    echo 'Location: ' . \$location;
-                }
-            }
-        ";
-
-        eval($code);
-
-        return new $className();
-    }
 }

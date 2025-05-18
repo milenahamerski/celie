@@ -7,13 +7,16 @@ use Core\Http\Request;
 use Lib\Authentication\Auth;
 use Lib\FlashMessage;
 
+
 class Authenticate implements Middleware
 {
     public function handle(Request $request): void
     {
         if (!Auth::check()) {
-            FlashMessage::danger('Você deve estar logado para acessar essa página');
-            $this->redirectTo(route('users.login'));
+            if ($_SERVER['REQUEST_URI'] !== route('users.login')) {
+                FlashMessage::danger('Você deve estar logado para acessar essa página');
+                $this->redirectTo(route('users.login'));
+            }
         }
     }
 
