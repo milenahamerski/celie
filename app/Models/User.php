@@ -10,14 +10,14 @@ use Core\Database\ActiveRecord\Model;
  * @property string $name
  * @property string $email
  * @property string $encrypted_password
- * @property int $is_admin
+ * @property string $role
  * @property string $created_at
  * @property string $updated_at
  */
 class User extends Model
 {
     protected static string $table = 'users';
-    protected static array $columns = ['name', 'email', 'encrypted_password', 'is_admin'];
+    protected static array $columns = ['name', 'email', 'encrypted_password', 'role'];
 
     protected ?string $password = null;
     protected ?string $password_confirmation = null;
@@ -30,6 +30,9 @@ class User extends Model
 
         if ($this->newRecord()) {
             Validations::passwordConfirmation($this);
+            if (!in_array($this->role, ['admin', 'member'])) {
+                throw new \Exception("Role inválida, deve ser 'admin' ou 'member'.");
+            }
         }
     }
 
@@ -38,25 +41,11 @@ class User extends Model
         return $this->encrypted_password !== null && password_verify($password, $this->encrypted_password);
     }
 
-    public static function findByEmail(string $email): User|null
+    public static function findByEmail(string $email): ?User
     {
         return User::findBy(['email' => $email]);
     }
 
-    public function afterSave(): void
-    {
-        if ($this->newRecord()) {
-            if ($this->is_admin) {
-                $admin = new Admin();
-                $admin->user_id = $this->id;
-                $admin->save();
-            } else {
-                $member = new Member();
-                $member->user_id = $this->id;
-                $member->save();
-            }
-        }
-    }
 
     public function __set(string $property, mixed $value): void
     {
@@ -73,11 +62,11 @@ class User extends Model
 
     public function isAdmin(): bool
     {
-        return $this->is_admin === 1;
+        return $this->role === 'admin';
     }
 
     public function isMember(): bool
     {
-        return $this->is_admin === 0;
+        return $this->role === 'member';
     }
 }

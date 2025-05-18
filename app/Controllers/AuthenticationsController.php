@@ -32,14 +32,13 @@ class AuthenticationsController extends Controller
             } elseif ($user->isMember()) {
                 $this->redirectTo(route('member.index'));
             } else {
-                $this->redirectTo(route('users.login'));
+                $this->redirectTo(route('home'));
             }
         } else {
             FlashMessage::danger('Email e/ou senha inválidos!');
             $this->redirectTo(route('users.login'));
         }
     }
-
 
     public function destroy(): void
     {

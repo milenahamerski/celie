@@ -19,14 +19,14 @@ class AuthTest extends TestCase
             'email' => 'fulano@example.com',
             'password' => '123456',
             'password_confirmation' => '123456',
-            'is_admin' => 0,
+            'role' => 'member', 
         ]);
         $this->user->save();
     }
 
     public function tearDown(): void
     {
-        parent::setUp();
+        parent::tearDown(); 
         $_SESSION = [];
     }
 
@@ -34,7 +34,7 @@ class AuthTest extends TestCase
     {
         Auth::login($this->user);
 
-        $this->assertEquals(1, $_SESSION['user']['id']);
+        $this->assertEquals($this->user->id, $_SESSION['user']['id']);
     }
 
     public function test_user(): void
