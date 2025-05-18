@@ -19,7 +19,7 @@ class UserTest extends TestCase
             'email' => 'fulano@example.com',
             'password' => '123456',
             'password_confirmation' => '123456',
-            'role' => 'member'  
+            'role' => 'member'
         ]);
         $this->user->save();
 
@@ -28,7 +28,7 @@ class UserTest extends TestCase
             'email' => 'fulano1@example.com',
             'password' => '123456',
             'password_confirmation' => '123456',
-            'role' => 'admin' 
+            'role' => 'admin'
         ]);
         $this->user2->save();
     }
@@ -78,13 +78,13 @@ class UserTest extends TestCase
     public function test_errors_should_return_role_exception(): void
     {
         $user = new User([
-            'role' => 'invalid_role' 
+            'role' => 'invalid_role'
         ]);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Role inválida, deve ser 'admin' ou 'member'.");
 
-        $user->isValid();  
+        $user->isValid();
     }
 
     public function test_errors_should_return_name_and_email_errors(): void

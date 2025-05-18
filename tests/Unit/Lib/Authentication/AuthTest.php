@@ -19,14 +19,14 @@ class AuthTest extends TestCase
             'email' => 'fulano@example.com',
             'password' => '123456',
             'password_confirmation' => '123456',
-            'role' => 'member', 
+            'role' => 'member',
         ]);
         $this->user->save();
     }
 
     public function tearDown(): void
     {
-        parent::tearDown(); 
+        parent::tearDown();
         $_SESSION = [];
     }
 
