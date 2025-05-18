@@ -1,5 +1,7 @@
 SET foreign_key_checks = 0;
 
+DROP TABLE IF EXISTS admins;
+DROP TABLE IF EXISTS members;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -7,7 +9,21 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     encrypted_password VARCHAR(255) NOT NULL,
-    avatar_name VARCHAR(65)
+    is_admin TINYINT(1) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 SET foreign_key_checks = 1;
