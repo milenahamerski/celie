@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Models;
 
 use Lib\Validations;
 use Core\Database\ActiveRecord\Model;
+use Core\Database\ActiveRecord\BelongsToMany;
 
 /**
  * @property int $id
@@ -21,6 +21,16 @@ class User extends Model
 
     protected ?string $password = null;
     protected ?string $password_confirmation = null;
+
+    public function contacts(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Contact::class,      
+            'user_contacts',    
+            'user_id',
+            'contact_id'
+        );
+    }
 
     public function validates(): void
     {
@@ -45,7 +55,6 @@ class User extends Model
     {
         return User::findBy(['email' => $email]);
     }
-
 
     public function __set(string $property, mixed $value): void
     {
