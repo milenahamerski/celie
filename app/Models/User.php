@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Lib\Validations;
@@ -24,13 +25,9 @@ class User extends Model
 
     public function contacts(): BelongsToMany
     {
-        return $this->belongsToMany(
-            Contact::class,      
-            'user_contacts',    
-            'user_id',
-            'contact_id'
-        );
+        return $this->belongsToMany(Contact::class, 'user_contacts', 'user_id', 'contact_id');
     }
+
 
     public function validates(): void
     {

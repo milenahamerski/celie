@@ -15,13 +15,12 @@ class Member extends Model
     protected static array $columns = ['user_id'];
 
     public function users(): BelongsToMany
-{
-    return $this->belongsToMany(
-        User::class,
-        'user_contacts',
-        'contact_id',
-        'user_id'
-    );
-}
-
+    {
+        return $this->belongsToMany(
+            User::class,
+            'user_contacts',
+            'contact_id',
+            'user_id'
+        );
+    }
 }

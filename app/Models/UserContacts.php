@@ -13,14 +13,14 @@ use PhpParser\Node\Expr\FuncCall;
  *  @property int $user_id
  */
 
- class UserContacts extends Model
- {
+class UserContacts extends Model
+{
     protected static string $table = 'user_contacts';
     protected static array $columns = ['contact_id', 'user_id'];
 
     public function user(): BelongsTo
     {
-        return $this-> belongsTo(User::class, 'user_id');   
+        return $this-> belongsTo(User::class, 'user_id');
     }
 
     public function contact(): BelongsTo
@@ -32,4 +32,4 @@ use PhpParser\Node\Expr\FuncCall;
     {
         Validations::uniqueness(['user_id', 'contact_id'], $this);
     }
- };
+}
