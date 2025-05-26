@@ -2,6 +2,7 @@
 
 use Core\Router\Route;
 use App\Controllers\AuthenticationsController;
+use App\Controllers\ContactsController;
 use App\Controllers\AdminController;
 use App\Controllers\HomeController;
 use App\Controllers\MemberController;
@@ -24,4 +25,7 @@ Route::middleware('auth.admin')->group(function () {
 
 Route::middleware('auth.member')->group(function () {
     Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+    Route::get('/contacts/new', [ContactsController::class, 'new'])->name('contacts.new');
+    Route::post('/contacts', [ContactsController::class, 'create'])->name('contacts.create');
+    Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts.index');
 });

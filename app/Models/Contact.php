@@ -7,12 +7,14 @@ use Core\Database\ActiveRecord\BelongsToMany;
 
 /**
  * @property int $id
- * @property int $user_id
+ * @property string $name
+ * @property string $phone
+ * @property string $email
  */
-class Member extends Model
+class Contact extends Model
 {
-    protected static string $table = 'members';
-    protected static array $columns = ['user_id'];
+    protected static string $table = 'contacts';
+    protected static array $columns = ['name', 'phone'];
 
     public function users(): BelongsToMany
     {
