@@ -1,0 +1,13 @@
+<form action="<?= route('contacts.create') ?>" method="POST">
+  <div class="mb-3">
+    <label for="contact_name" class="form-label">Nome</label>
+    <input type="text" class="form-control" id="contact_name" name="contact[name]" placeholder="Digite seu nome" required value="<?= htmlspecialchars($contact->name ?? '') ?>">
+  </div>
+
+  <div class="mb-3">
+    <label for="contact_phone" class="form-label">Celular</label>
+    <input type="tel" class="form-control" id="contact_phone" name="contact[phone]" placeholder="(00) 00000-0000" required value="<?= htmlspecialchars($contact->phone ?? '') ?>">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Enviar</button>
+</form>

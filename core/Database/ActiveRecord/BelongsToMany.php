@@ -2,6 +2,7 @@
 
 namespace Core\Database\ActiveRecord;
 
+
 use Core\Database\Database;
 use PDO;
 
@@ -80,4 +81,29 @@ class BelongsToMany
 
         return $rows[0]['total'];
     }
+    
+    //? METODO PARA INSERIR REGISTRO NA TABELA PIVO
+    public function attach(int $related_id): bool
+{
+    $pdo = Database::getDatabaseConn();
+
+    $sqlCheck = "SELECT COUNT(*) FROM {$this->pivot_table} WHERE {$this->from_foreign_key} = :from_id AND {$this->to_foreign_key} = :to_id";
+    $stmtCheck = $pdo->prepare($sqlCheck);
+    $stmtCheck->execute([
+        ':from_id' => $this->model->id,
+        ':to_id' => $related_id,
+    ]);
+    if ($stmtCheck->fetchColumn() > 0) {
+        return true;
+    }
+
+    $sql = "INSERT INTO {$this->pivot_table} ({$this->from_foreign_key}, {$this->to_foreign_key}) VALUES (:from_id, :to_id)";
+    $stmt = $pdo->prepare($sql);
+
+    return $stmt->execute([
+        ':from_id' => $this->model->id,
+        ':to_id' => $related_id,
+    ]);
+}
+
 }
