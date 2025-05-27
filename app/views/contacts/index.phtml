@@ -19,7 +19,8 @@
     </thead>
     <tbody>
         <?php $hasResults = false; ?>
-        <?php foreach ($paginator as $contact) : ?>
+
+        <?php foreach ($paginator->registers() as $contact) : ?>
             <?php $hasResults = true; ?>
             <tr>
                 <td><?= htmlspecialchars($contact->id) ?></td>
