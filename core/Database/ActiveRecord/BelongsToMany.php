@@ -4,6 +4,7 @@ namespace Core\Database\ActiveRecord;
 
 
 use Core\Database\Database;
+
 use PDO;
 
 class BelongsToMany
@@ -103,6 +104,19 @@ class BelongsToMany
     return $stmt->execute([
         ':from_id' => $this->model->id,
         ':to_id' => $related_id,
+    ]);
+}
+
+//? METODO PARA DESVINCULAR UM CONTATO DO USUARIO SELECIONADO
+public function detach(int $relatedId): void
+{
+    $pdo = Database::getDatabaseConn();
+
+    $sql = "DELETE FROM {$this->pivot_table} WHERE {$this->from_foreign_key} = :from_id AND {$this->to_foreign_key} = :to_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':from_id' => $this->model->id,
+        ':to_id' => $relatedId,
     ]);
 }
 

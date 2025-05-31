@@ -23,6 +23,7 @@ class User extends Model
     protected ?string $password = null;
     protected ?string $password_confirmation = null;
 
+
     public function contacts(): BelongsToMany
     {
         return $this->belongsToMany(Contact::class, 'user_contacts', 'user_id', 'contact_id');

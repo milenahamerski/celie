@@ -1,5 +1,5 @@
 <?php
-/** @var Lib\Paginator $paginator */
+/** @var array|\Traversable $contacts */
 ?>
 
 <h1>Contatos</h1>
@@ -18,60 +18,25 @@
         </tr>
     </thead>
     <tbody>
-        <?php $hasResults = false; ?>
-
-        <?php foreach ($paginator->registers() as $contact) : ?>
-            <?php $hasResults = true; ?>
-            <tr>
-                <td><?= htmlspecialchars($contact->id) ?></td>
-                <td><?= htmlspecialchars($contact->name) ?></td>
-                <td><?= htmlspecialchars($contact->phone) ?></td>
-                <td>
-                    <a href="<?= route('contacts.edit', ['id' => $contact->id]) ?>" class="btn btn-sm btn-warning">Editar</a>
-                    <form action="<?= route('contacts.delete', ['id' => $contact->id]) ?>" method="POST" style="display:inline-block" onsubmit="return confirm('Confirma exclusão?')">
-                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
-                    </form>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-
-        <?php if (!$hasResults): ?>
+        <?php if (count($contacts) === 0): ?>
             <tr>
                 <td colspan="4" class="text-center">Nenhum contato encontrado.</td>
             </tr>
+        <?php else: ?>
+            <?php foreach ($contacts as $contact): ?>
+                <tr>
+                    <td><?= htmlspecialchars($contact->id) ?></td>
+                    <td><?= htmlspecialchars($contact->name) ?></td>
+                    <td><?= htmlspecialchars($contact->phone) ?></td>
+                    <td>
+                        <form action="<?= route('contacts.delete', ['id' => $contact->id]) ?>" method="POST" style="display:inline-block" onsubmit="return confirm('Confirma exclusão?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
         <?php endif; ?>
     </tbody>
 </table>
 
-<nav aria-label="Navegação de páginas">
-    <ul class="pagination justify-content-end">
-
-        <?php if ($paginator->hasPreviousPage()) : ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= route($paginator->getRouteName(), ['page' => $paginator->previousPage()]) ?>">Anterior</a>
-            </li>
-        <?php else : ?>
-            <li class="page-item disabled">
-                <span class="page-link">Anterior</span>
-            </li>
-        <?php endif; ?>
-
-        <?php for ($page = 1; $page <= $paginator->totalOfPages(); $page++) : ?>
-            <li class="page-item <?= $paginator->isPage($page) ? 'active' : '' ?>">
-                <a class="page-link" href="<?= route($paginator->getRouteName(), ['page' => $page]) ?>"><?= $page ?></a>
-            </li>
-        <?php endfor; ?>
-
-        <?php if ($paginator->hasNextPage()) : ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= route($paginator->getRouteName(), ['page' => $paginator->nextPage()]) ?>">Próxima</a>
-            </li>
-        <?php else : ?>
-            <li class="page-item disabled">
-                <span class="page-link">Próxima</span>
-            </li>
-        <?php endif; ?>
-    </ul>
-</nav>
-
-<div class="d-flex justify-content-end"><?= $paginator->entriesInfo() ?></div>
