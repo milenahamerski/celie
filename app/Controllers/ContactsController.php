@@ -11,13 +11,10 @@ class ContactsController extends Controller
 {
     public function index(Request $request): void
     {
-        $paginator = Contact::paginate(
-            page: $request->getParam('page', 1),
-            route: 'contacts.index'
-        );
-
-        $this->render('contacts/index', compact('paginator'));
+        $contacts = $this->current_user->contacts()->get();
+        $this->render('contacts/index', compact('contacts'));
     }
+
 
     public function new(): void
     {
@@ -41,5 +38,26 @@ class ContactsController extends Controller
             $title = 'Novo Contato';
             $this->render('contacts/new', compact('contact', 'title'));
         }
+    }
+
+    public function destroy(Request $request): void
+    {
+        $id = $request->getParam('id');
+        $contacts = $this->current_user->contacts()->get();
+
+        $contact = array_filter($contacts, fn($c) => $c->id == $id);
+        $contact = array_values($contact)[0] ?? null;
+
+        if (!$contact) {
+            FlashMessage::danger('Contato não encontrado ou não pertence a você.');
+            $this->redirectTo(route('contacts.index'));
+            return;
+        }
+
+        //? REMOVE VINCULO TABELA PIVOT
+        $this->current_user->contacts()->detach($id);
+
+        FlashMessage::success('Contato removido com sucesso!');
+        $this->redirectTo(route('contacts.index'));
     }
 }

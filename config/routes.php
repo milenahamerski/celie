@@ -28,4 +28,5 @@ Route::middleware('auth.member')->group(function () {
     Route::get('/contacts/new', [ContactsController::class, 'new'])->name('contacts.new');
     Route::post('/contacts', [ContactsController::class, 'create'])->name('contacts.create');
     Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts.index');
+    Route::delete('/contacts/{id}', [ContactsController::class, 'destroy'])->name('contacts.delete');
 });
