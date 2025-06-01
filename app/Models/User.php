@@ -26,9 +26,9 @@ class User extends Model
 
     public function contacts(): BelongsToMany
     {
-        return $this->belongsToMany(Contact::class, 'user_contacts', 'user_id', 'contact_id');
+        return $this->belongsToMany(Contact::class, 'user_contacts', 'user_id', 'contact_id')
+                ->withPivot('name');
     }
-
 
     public function validates(): void
     {
