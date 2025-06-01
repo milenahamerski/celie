@@ -28,8 +28,8 @@ CREATE TABLE user_contacts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     contact_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT,
     CONSTRAINT fk_contact FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE RESTRICT
 );
-
 SET foreign_key_checks = 1;

@@ -16,6 +16,8 @@ class Contact extends Model
     protected static string $table = 'contacts';
     protected static array $columns = ['name', 'phone'];
 
+    public ?object $pivot = null;
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(
