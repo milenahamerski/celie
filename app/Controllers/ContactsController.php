@@ -66,10 +66,9 @@ class ContactsController extends Controller
     public function update(Request $request): void
     {
         $id = $request->getParam('id');
+        $name = trim((string) ($request->getParam('name') ?? ''));
 
-        $name = trim($request->getParam('name'));
-
-        if (!$id || !$name) {
+        if (empty($id) || empty($name)) {
             FlashMessage::danger('Dados inválidos.');
             $this->redirectTo(route('contacts.index'));
             return;
@@ -77,7 +76,7 @@ class ContactsController extends Controller
 
         $userContact = UserContacts::findBy([
         'user_id' => $this->current_user->id,
-        'contact_id' => $id
+        'contact_id' => $id,
         ]);
 
         if (!$userContact) {
