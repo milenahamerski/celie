@@ -1,13 +1,37 @@
-<form action="<?= route('contacts.create') ?>" method="POST">
+<head>
+  <link rel="stylesheet" href="/assets/css/application.css" />
+</head>
+
+<form action="/contacts" method="POST">
   <div class="mb-3">
     <label for="contact_name" class="form-label">Nome</label>
-    <input type="text" class="form-control" id="contact_name" name="contact[name]" placeholder="Digite seu nome" required value="<?= htmlspecialchars($contact->name ?? '') ?>">
+    <input
+      type="text"
+      class="form-control"
+      id="contact_name"
+      name="contact[name]"
+      placeholder="Digite seu nome"
+      required
+      value="<?= htmlspecialchars($contact->name ?? '') ?>"
+    >
   </div>
 
   <div class="mb-3">
     <label for="contact_phone" class="form-label">Celular</label>
-    <input type="tel" class="form-control" id="contact_phone" name="contact[phone]" placeholder="(00) 00000-0000" required value="<?= htmlspecialchars($contact->phone ?? '') ?>">
+    <input
+      type="tel"
+      class="form-control"
+      id="contact_phone"
+      name="contact[phone]"
+      placeholder="(00) 00000-0000"
+      required
+      minlength="10"
+      maxlength="12"
+      pattern="[\d\s\(\)\-]{10,12}"
+      title="Digite um telefone com 10 a 12 caracteres. Números, espaços, parênteses e traços são permitidos."
+      value="<?= htmlspecialchars($contact->phone ?? '') ?>"
+    >
   </div>
 
-  <button type="submit" class="btn btn-primary">Enviar</button>
+  <button type="submit" class="btn-celie">Enviar</button>
 </form>
