@@ -100,7 +100,7 @@ class ContactsCest extends BaseAcceptanceCest
 
         $I->executeJS("window.confirm = function() { return true; };");
 
-        $I->click('/html/body/main/section/table/tbody/tr[1]/td[4]/form/button');
+        $I->click('Excluir');
 
         $I->see('Contato removido com sucesso!');
         $I->dontSee('Contato para Excluir', 'table');

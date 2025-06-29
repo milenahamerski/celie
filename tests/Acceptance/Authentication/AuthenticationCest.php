@@ -28,7 +28,7 @@ class AuthenticationCest extends BaseAcceptanceCest
 
         $page->see('Login realizado com sucesso!');
         $page->seeInCurrentUrl('/member');
-        $page->see('Oi membro!');
+        $page->see('Oi, User 1!');
     }
 
     public function loginSuccessfullyAsAdmin(AcceptanceTester $page): void
@@ -150,7 +150,7 @@ class AuthenticationCest extends BaseAcceptanceCest
         $page->click('Login');
 
         $page->see('Login realizado com sucesso!');
-        $page->click('Logout');
+        $page->click('Sair');
         $page->see('Logout realizado com sucesso!');
         $page->seeInCurrentUrl('/login');
     }
