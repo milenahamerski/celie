@@ -6,6 +6,7 @@ use App\Controllers\ContactsController;
 use App\Controllers\AdminController;
 use App\Controllers\HomeController;
 use App\Controllers\MemberController;
+use App\Controllers\ProfileController;
 use App\Middleware\Authenticate;
 
 Route::get('/', [HomeController::class, 'index'])->name('root');
@@ -25,9 +26,15 @@ Route::middleware('auth.admin')->group(function () {
 
 Route::middleware('auth.member')->group(function () {
     Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+
+    //? CONTACTS
     Route::get('/contacts/new', [ContactsController::class, 'new'])->name('contacts.new');
     Route::post('/contacts', [ContactsController::class, 'create'])->name('contacts.create');
     Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts.index');
     Route::delete('/contacts/{id}', [ContactsController::class, 'destroy'])->name('contacts.delete');
     Route::put('/contacts/{id}', [ContactsController::class, 'update'])->name('contacts.update');
+
+    //? PROFILE
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
 });

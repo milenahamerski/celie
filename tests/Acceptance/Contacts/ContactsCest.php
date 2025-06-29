@@ -85,12 +85,11 @@ class ContactsCest extends BaseAcceptanceCest
         $I->amOnPage('/contacts');
     }
 
-
     public function deleteContact(AcceptanceTester $I): void
     {
         $contact = new Contact([
-        'name' => 'Contato para Excluir',
-        'phone' => '(77) 77777-7777',
+            'name' => 'Contato para Excluir',
+            'phone' => '(77) 77777-7777',
         ]);
         $contact->save();
 
@@ -99,11 +98,11 @@ class ContactsCest extends BaseAcceptanceCest
         $I->amOnPage('/contacts');
         $I->see('Excluir');
 
-        $I->executeJS("window.confirm = function(){return true;}");
-        $I->click('/html/body/main/section/table/tbody/tr[1]/td[4]/form/button');
+        $I->executeJS("window.confirm = function() { return true; };");
 
+        $I->click('Excluir');
 
         $I->see('Contato removido com sucesso!');
-        $I->dontSee('Contato para Excluir');
+        $I->dontSee('Contato para Excluir', 'table');
     }
 }

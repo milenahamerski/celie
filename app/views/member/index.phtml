@@ -1,9 +1,12 @@
-<head>
-<link rel="stylesheet" href="/assets/css/application.css" />
-</head>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card-celie text-center w-100" style="max-width: 500px;">
+        <h2 class="mb-3" style="color: #553A59;">Oi, <?= $this->current_user->name ?>!</h2>
+        <p class="text-muted">Esperamos que você esteja bem. Use os recursos abaixo quando precisar.</p>
 
-<h1>Oi membro!</h1>
-
-<a href="/logout" class="btn btn-danger">Logout</a>
-
-<a href="<?= route('contacts.index') ?>" class="btn btn-celie">Ver Contatos</a>
+        <div class="d-grid gap-2 mt-4">
+            <a href="<?= route('profile.show') ?>" class="btn btn-celie btn-lg">Ver perfil</a>
+            <a href="<?= route('contacts.index') ?>" class="btn btn-celie btn-lg">Ver contatos</a>
+            <a href="/logout" class="btn btn-outline-danger btn-lg">Sair</a>
+        </div>
+    </div>
+</div>

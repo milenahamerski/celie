@@ -5,6 +5,7 @@ namespace App\Models;
 use Lib\Validations;
 use Core\Database\ActiveRecord\Model;
 use Core\Database\ActiveRecord\BelongsToMany;
+use App\Services\ProfileAvatar;
 
 /**
  * @property int $id
@@ -12,13 +13,14 @@ use Core\Database\ActiveRecord\BelongsToMany;
  * @property string $email
  * @property string $encrypted_password
  * @property string $role
+ * @property string|null $avatar_name
  * @property string $created_at
  * @property string $updated_at
  */
 class User extends Model
 {
     protected static string $table = 'users';
-    protected static array $columns = ['name', 'email', 'encrypted_password', 'role'];
+    protected static array $columns = ['name', 'email', 'encrypted_password', 'role', 'avatar_name'];
 
     protected ?string $password = null;
     protected ?string $password_confirmation = null;
@@ -75,5 +77,11 @@ class User extends Model
     public function isMember(): bool
     {
         return $this->role === 'member';
+    }
+
+
+    public function avatar(): ProfileAvatar
+    {
+        return new ProfileAvatar($this);
     }
 }

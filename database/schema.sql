@@ -10,6 +10,7 @@ CREATE TABLE users (
     email VARCHAR(50) UNIQUE NOT NULL,
     encrypted_password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'member') NOT NULL DEFAULT 'member',
+    avatar_name VARCHAR(65),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
