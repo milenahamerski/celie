@@ -68,5 +68,4 @@ class UploadAvatarCest extends BaseAcceptanceCest
     //     $page->see('Extensão de arquivo inválida');
     //     $page->seeInCurrentUrl('/profile');
     // }
-    
 }
