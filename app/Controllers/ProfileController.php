@@ -28,7 +28,12 @@ class ProfileController extends Controller
         if ($success) {
             FlashMessage::success('Foto de perfil atualizada com sucesso!');
         } else {
-            $error = $this->current_user->errors('avatar') ?? 'Não foi possível atualizar a foto de perfil.';
+            $error = $this->current_user->errors('avatar');
+
+            if (!$error) {
+                $error = 'Não foi possível atualizar a foto de perfil.';
+            }
+
             FlashMessage::danger($error);
         }
 
